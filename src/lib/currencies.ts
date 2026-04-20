@@ -4,7 +4,7 @@ export interface CurrencyInfo {
   flag: string;
 }
 
-// ISO 4217 currency codes with Turkish names and flag emojis
+// Major world currencies with Turkish labels — XAU/XAG excluded (handled by MetalCard)
 export const CURRENCIES: CurrencyInfo[] = [
   { code: "USD", name: "ABD Doları", flag: "🇺🇸" },
   { code: "EUR", name: "Euro", flag: "🇪🇺" },
@@ -29,7 +29,6 @@ export const CURRENCIES: CurrencyInfo[] = [
   { code: "HUF", name: "Macar Forinti", flag: "🇭🇺" },
   { code: "RON", name: "Romen Leyi", flag: "🇷🇴" },
   { code: "BGN", name: "Bulgar Levası", flag: "🇧🇬" },
-  { code: "HRK", name: "Hırvat Kunası", flag: "🇭🇷" },
   { code: "ISK", name: "İzlanda Kronu", flag: "🇮🇸" },
   { code: "THB", name: "Tayland Bahtı", flag: "🇹🇭" },
   { code: "SGD", name: "Singapur Doları", flag: "🇸🇬" },
@@ -49,10 +48,8 @@ export const CURRENCIES: CurrencyInfo[] = [
   { code: "EGP", name: "Mısır Lirası", flag: "🇪🇬" },
   { code: "ILS", name: "İsrail Şekeli", flag: "🇮🇱" },
   { code: "JOD", name: "Ürdün Dinarı", flag: "🇯🇴" },
-  { code: "LBP", name: "Lübnan Lirası", flag: "🇱🇧" },
   { code: "PKR", name: "Pakistan Rupisi", flag: "🇵🇰" },
   { code: "BDT", name: "Bangladeş Takası", flag: "🇧🇩" },
-  { code: "LKR", name: "Sri Lanka Rupisi", flag: "🇱🇰" },
   { code: "NGN", name: "Nijerya Nairası", flag: "🇳🇬" },
   { code: "KES", name: "Kenya Şilini", flag: "🇰🇪" },
   { code: "GHS", name: "Gana Sedisi", flag: "🇬🇭" },
@@ -60,44 +57,27 @@ export const CURRENCIES: CurrencyInfo[] = [
   { code: "CLP", name: "Şili Pesosu", flag: "🇨🇱" },
   { code: "COP", name: "Kolombiya Pesosu", flag: "🇨🇴" },
   { code: "PEN", name: "Peru Solu", flag: "🇵🇪" },
-  { code: "UYU", name: "Uruguay Pesosu", flag: "🇺🇾" },
   { code: "UAH", name: "Ukrayna Grivnası", flag: "🇺🇦" },
   { code: "GEL", name: "Gürcistan Larisi", flag: "🇬🇪" },
   { code: "AZN", name: "Azerbaycan Manatı", flag: "🇦🇿" },
   { code: "KZT", name: "Kazakistan Tengesi", flag: "🇰🇿" },
-  { code: "UZS", name: "Özbekistan Somu", flag: "🇺🇿" },
   { code: "MAD", name: "Fas Dirhemi", flag: "🇲🇦" },
   { code: "TND", name: "Tunus Dinarı", flag: "🇹🇳" },
   { code: "DZD", name: "Cezayir Dinarı", flag: "🇩🇿" },
-  { code: "XAU", name: "Altın (Ons)", flag: "🥇" },
 ];
 
-export const GOLD_CODE = "XAU";
+/** Currencies with 0 decimals in formatting */
+const NO_DECIMAL = new Set([
+  "JPY", "KRW", "VND", "IDR", "HUF", "CLP", "UZS", "LBP",
+]);
 
-// 1 troy ounce = 31.1035 gram
-export const TROY_OUNCE_TO_GRAM = 31.1035;
-
-export function getCurrencyByCode(code: string): CurrencyInfo | undefined {
-  return CURRENCIES.find((c) => c.code === code);
-}
-
-export function formatNumber(value: number, code: string): string {
-  if (code === GOLD_CODE) {
-    return value.toLocaleString("tr-TR", {
-      minimumFractionDigits: 4,
-      maximumFractionDigits: 4,
-    });
-  }
-
-  // Currencies with no decimals
-  const noDecimal = ["JPY", "KRW", "VND", "IDR", "HUF", "CLP", "UZS", "LBP"];
-  if (noDecimal.includes(code)) {
+export function formatNumber(value: number, currencyCode: string): string {
+  if (NO_DECIMAL.has(currencyCode)) {
     return value.toLocaleString("tr-TR", {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     });
   }
-
   return value.toLocaleString("tr-TR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,

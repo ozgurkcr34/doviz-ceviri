@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Döviz & Altın Çevirici — Anlık Kur Hesaplama",
+  title: "Döviz & Emtia Çevirici — Anlık Kur Hesaplama",
   description:
-    "Dünyadaki tüm para birimleri ve altın fiyatları arasında anlık çeviri yapın. ExchangeRate-API destekli, güvenilir kur verileri.",
+    "Para birimleri, altın ve gümüş fiyatları arasında anlık çeviri. ExchangeRate-API destekli güvenilir veriler.",
 };
 
 export default function RootLayout({
@@ -22,11 +22,13 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body className="bg-white text-neutral-900 font-sans min-h-screen">
+        {children}
+      </body>
     </html>
   );
 }
