@@ -82,11 +82,11 @@ export default function CurrencyCard({ rates, loading }: CurrencyCardProps) {
             setAmount(e.target.value.replace(/[^0-9.,]/g, ""))
           }
           className={[
-            "w-full h-14 px-4 text-2xl font-semibold tracking-tight",
+            "w-full h-14 px-4 text-2xl font-semibold tracking-tight font-mono tabular-nums",
             "border border-neutral-200 outline-none",
             "transition-all duration-150",
             "focus:border-neutral-400",
-            "placeholder:text-neutral-300",
+            "placeholder:text-neutral-300 placeholder:font-sans",
             loading ? "opacity-40 pointer-events-none" : "",
           ].join(" ")}
           placeholder="0"
@@ -140,15 +140,16 @@ export default function CurrencyCard({ rates, loading }: CurrencyCardProps) {
         </div>
       ) : result !== null ? (
         <div>
-          <p className="text-3xl sm:text-[2.25rem] font-bold tracking-tight leading-tight">
+          <p className="text-3xl sm:text-[2.25rem] font-bold tracking-tight leading-tight font-mono tabular-nums">
             {formatNumber(result, toCurrency)}
-            <span className="text-base sm:text-lg text-neutral-400 font-medium ml-2">
+            <span className="text-base sm:text-lg text-neutral-400 font-medium ml-2 font-sans">
               {toCurrency}
             </span>
           </p>
           {unitRate !== null && (
-            <p className="text-sm text-neutral-400 mt-2">
-              1 {fromCurrency} = {formatNumber(unitRate, toCurrency)}{" "}
+            <p className="text-[13px] text-neutral-400 mt-2.5">
+              1 {fromCurrency} ={" "}
+              <span className="font-mono tabular-nums">{formatNumber(unitRate, toCurrency)}</span>{" "}
               {toCurrency}
             </p>
           )}
