@@ -3,16 +3,12 @@ import { NextResponse } from "next/server";
 export const revalidate = 3600; // Cache for 1 hour
 
 export async function GET() {
-  const apiKey = process.env.EXCHANGE_RATE_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_EXCHANGE_RATE_API_KEY;
 
   try {
     // --- 1. Fetch currency rates (USD base) ---
-    let currencyUrl: string;
-    if (apiKey && apiKey !== "YOUR_API_KEY") {
-      currencyUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`;
-    } else {
-      currencyUrl = `https://open.er-api.com/v6/latest/USD`;
-    }
+    const currencyUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`;
+
 
     const currencyRes = await fetch(currencyUrl, {
       next: { revalidate: 3600 },
